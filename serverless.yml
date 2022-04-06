@@ -1,0 +1,68 @@
+# Welcome to serverless. Read the docs
+# https://serverless.com/framework/docs/
+
+# Serverless.yml is the configuration the CLI
+# uses to deploy your code to your provider of choice
+
+# The `service` block is the name of the service
+service: serverless-ssm-process-dcf-csv-file
+
+frameworkVersion: '3'
+
+params:
+  default:
+    domain: ${sls:stage}.preview.myapp.com
+  dev:
+    sm_pgs_db_auth: dev_esmd_db_secret
+    pgs_idle_time_out: 90000
+    pgs_conn_time_out: 5000
+    bucket_name: esmd-aws-outbound-siva
+  val:
+    domain: preview.myapp.com
+
+  uat:
+    domain: preview.myapp.com
+    
+  prod:
+    domain: preview.myapp.com
+
+# The `provider` block defines where your service will be deployed
+provider:
+  name: aws
+  runtime: nodejs12.x
+
+  iam:
+    role: arn:aws:iam::030556409702:role/esmd_serverless_role
+
+  deploymentBucket:
+    name: esmd-aws-generic-bucket-siva # Overwrite the default deployment bucket
+    #serverSideEncryption: AES256 # when using server-side encryption
+
+# The `functions` block defines what code to deploy
+functions:
+  processDCFFile:
+    handler: index.handler
+    runtime: nodejs12.x
+    vpc:
+      securityGroupIds:
+        - sg-03151b54033e5158d
+      subnetIds:
+        - subnet-0c3a4f372e820d41c
+        - subnet-02e013088b137a8ce
+
+    memorySize: 256 # optional, in MB, default is 1024
+    timeout: 10 # 
+    # provisionedConcurrency: 3 # optional, Count of provisioned lambda instances
+    # reservedConcurrency: 5 # optional, reserved concurrency limit for this function. By default, AWS uses account concurrency limit
+    package:
+      individually: true
+    events: 
+      - sqs: arn:aws:sqs:us-east-1:030556409702:esmd-process-dcf-queue.fifo 
+    environment:
+      ENVIRONMENT_NAME: dev
+      SM_PGS_DB_AUTH: ${param:sm_pgs_db_auth}
+      PGS_IDLE_TIME_OUT: ${param:pgs_idle_time_out}
+      PGS_CONN_TIME_OUT: ${param:pgs_conn_time_out}
+      BUCKET_NAME: ${param:bucket_name}
+      
+

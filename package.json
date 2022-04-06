@@ -1,0 +1,20 @@
+{
+  "name": "serverless-ssm-process-dcf-csv-file",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Siva Nelluri",
+  "license": "ISC",
+  "dependencies": {
+    "csvtojson": "^2.0.10",
+    "pg": "^8.7.3"
+  },
+  "devDependencies": {
+    "eslint": "^8.5.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.3"
+  }
+}
