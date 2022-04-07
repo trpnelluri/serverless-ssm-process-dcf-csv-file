@@ -17,6 +17,7 @@ params:
     pgs_idle_time_out: 90000
     pgs_conn_time_out: 5000
     bucket_name: esmd-aws-outbound-siva
+    regex_validation_data: status^[A | U | M | E],DocumentCode^([0-9]{6}),DocumentDescription^.*{1,1000},ActionDate^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(19|20|21)\d{2}
   val:
     domain: preview.myapp.com
 
@@ -57,12 +58,13 @@ functions:
     package:
       individually: true
     events: 
-      - sqs: arn:aws:sqs:us-east-1:030556409702:esmd-process-dcf-queue.fifo 
+      - sqs: arn:aws:sqs:us-east-1:030556409702:esmd-process-dcf-queue.fifo
     environment:
       ENVIRONMENT_NAME: dev
       SM_PGS_DB_AUTH: ${param:sm_pgs_db_auth}
       PGS_IDLE_TIME_OUT: ${param:pgs_idle_time_out}
       PGS_CONN_TIME_OUT: ${param:pgs_conn_time_out}
       BUCKET_NAME: ${param:bucket_name}
+      REGEX_VALIDATION_DATA: ${param:regex_validation_data}
       
 

@@ -6,7 +6,6 @@ const ProcessEventService = require('./lib/process-event-service');
 module.exports.handler = async function (event, context, callback) {
   context.callbackWaitsForEmptyEventLoop = false;
   console.log(`handler,Event received: ${JSON.stringify(event)} event.Records.length: ${event.Records.length}`);
-
   let processEventService = ProcessEventService.getInstance();
   try {
     let response = await processEventService.processEvent(event);
