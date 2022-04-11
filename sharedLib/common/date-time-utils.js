@@ -4,7 +4,7 @@ let instance = null;
 const clsName = 'DateTimeUtilsService'
 
 class DateTimeUtilsService {
-    
+
     static getInstance() {
         if (!instance) {
             instance = new DateTimeUtilsService();
@@ -14,15 +14,15 @@ class DateTimeUtilsService {
     
     async formattedDate (guid, dateToFormat) {
         try {
+            console.log(`${clsName},${guid},formattedDate,dateFormatted: ${dateToFormat}`);
             let dateToFormatArray = dateToFormat.split('/')
-            let month = dateToFormatArray[0]
-            let day = dateToFormatArray[1]
-            let year = dateToFormatArray[2]
+            console.log(`${clsName},${guid},formattedDate,dateToFormatArray.length: ${dateToFormatArray.length}`);
+            let month = parseInt(dateToFormatArray[0])
+            let day = parseInt(dateToFormatArray[1])
+            let year = parseInt(dateToFormatArray[2])
             month = (month < 10 ? '0' : '') + month;
             day = (day < 10 ? '0' : '') + day;
-            hour = (hour < 10 ? '0' : '') + hour;
             const dateFormatted = month + '/' + day + '/' + year
-
             console.log(`${clsName},${guid},formattedDate,dateFormatted: ${dateFormatted}`);
             return dateFormatted
         } catch(err) {
