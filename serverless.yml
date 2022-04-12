@@ -17,6 +17,10 @@ params:
     pgs_idle_time_out: 90000
     pgs_conn_time_out: 5000
     bucket_name: esmd-aws-outbound-siva
+    doc_code_chk: ESMD_707^ERR_CSV_DOC_CD_MIS_INVLD^EITHER THE DOCUMENT CODE IS MISSING OR THE FORMAT IS INVALID FOR RECORD {0}
+    doc_des_chk: ESMD_707^ERR_CSV_DOC_DESC_MIS^EITHER THE DOCUMENT DESCRIPTION IS MISSING OR IS INVALID FOR RECORD {0}
+    act_status_chk: ESMD_709^ERR_CSV_ACTN_STUS_MIS^EITHER THE ACTION STATUS IS MISSING OR INVALID - VALID VALUES ARE(A,U,M,E) FOR RECORD {0}
+    act_date_chk: ESMD_710^ERR_CSV_ACTN_DT_MIS^EITHER THE ACTION DATE IS MISSING OR INVALID FOR RECORD {0}
   val:
     domain: preview.myapp.com
 
@@ -64,5 +68,9 @@ functions:
       PGS_IDLE_TIME_OUT: ${param:pgs_idle_time_out}
       PGS_CONN_TIME_OUT: ${param:pgs_conn_time_out}
       BUCKET_NAME: ${param:bucket_name}
+      DOC_CODE_CHK: ${param:doc_code_chk}
+      DOC_DES_CHK: ${param:doc_des_chk}
+      ACT_STATUS_CHK: ${param:act_status_chk}
+      ACT_DATE_CHK: ${param:act_date_chk}
       
 

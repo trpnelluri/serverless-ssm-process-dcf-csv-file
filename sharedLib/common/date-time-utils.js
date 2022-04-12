@@ -22,7 +22,8 @@ class DateTimeUtilsService {
             let year = parseInt(dateToFormatArray[2])
             month = (month < 10 ? '0' : '') + month;
             day = (day < 10 ? '0' : '') + day;
-            const dateFormatted = month + '/' + day + '/' + year
+            //const dateFormatted = month + '/' + day + '/' + year
+            const dateFormatted = month + day + year
             console.log(`${clsName},${guid},formattedDate,dateFormatted: ${dateFormatted}`);
             return dateFormatted
         } catch(err) {
