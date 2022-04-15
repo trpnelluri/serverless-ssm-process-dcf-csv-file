@@ -18,13 +18,14 @@ params:
     pgs_conn_time_out: 5000
     bucket_name: esmd-aws-outbound-siva
     doc_code_err_data: ESMD_707^ERR_CSV_DOC_CD_MIS_INVLD^EITHER THE DOCUMENT CODE IS MISSING OR THE FORMAT IS INVALID FOR RECORD {0}
-    doc_des_err_data: ESMD_707^ERR_CSV_DOC_DESC_MIS^EITHER THE DOCUMENT DESCRIPTION IS MISSING OR IS INVALID FOR RECORD {0}
+    doc_des_err_data: ESMD_708^ERR_CSV_DOC_DESC_MIS^EITHER THE DOCUMENT DESCRIPTION IS MISSING OR IS INVALID FOR RECORD {0}
     act_status_err_data: ESMD_709^ERR_CSV_ACTN_STUS_MIS^EITHER THE ACTION STATUS IS MISSING OR INVALID - VALID VALUES ARE(A,U,M,E) FOR RECORD {0}
     act_date_err_data: ESMD_710^ERR_CSV_ACTN_DT_MIS^EITHER THE ACTION DATE IS MISSING OR INVALID FOR RECORD {0}
     doc_code_regex_value: /^([0-9]{6})$/
     doc_des_regex_value: /^[\s\S]{1,1000}$/
     act_status_regex_value: /^[A | U | M | E]$/
     act_date_regex_value: /^(0[1-9]|1[0-2])(0[1-9]|1\d|2\d|3[01])(19|20|21)\d{2}$/
+    rec_type_indi_dcf_body: V
   val:
     domain: preview.myapp.com
 
@@ -80,5 +81,6 @@ functions:
       DOC_DES_REGEX_VALUE: ${param:doc_des_regex_value}
       ACT_STATUS_REGEX_VALUE: ${param:act_status_regex_value}
       ACT_DATE_REGEX_VALUE: ${param:act_date_regex_value}
+      REC_TYPE_INDI_DCF_BODY: ${param:rec_type_indi_dcf_body}
       
 
