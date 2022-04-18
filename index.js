@@ -1,6 +1,6 @@
 'use strict';
 
-const PostgresPoolService = require('./sharedLib/db/postgre-pool-service');
+const PostgresPromiseService = require('./sharedLib/db/postgres-promise-service');
 const ProcessEventService = require('./lib/process-event-service');
 
 module.exports.handler = async function (event, context, callback) {
@@ -9,7 +9,8 @@ module.exports.handler = async function (event, context, callback) {
 
   let processEventService = ProcessEventService.getInstance();
   try {
-    let response = await processEventService.processEvent(event);
+    const db = await PostgresPromiseService.getInstance().connectToPostgresPromiseDB ()
+    let response = await processEventService.processEvent(event, db);
     console.log(`handler,response: ${JSON.stringify(response)}`);
     return callback(null, response);
 
