@@ -5,7 +5,7 @@ const client = new aws.SecretsManager({
     region: process.env.AWS_REGION || 'us-east-1'
 });
 
-const EventName = 'SecretManagerService'
+const clsName = 'SecretManagerService'
 let instance = null;
 
 class SecretManagerService {
@@ -24,12 +24,12 @@ class SecretManagerService {
      */
     async getSecretValue(params) {
         try {
-            console.log(`${EventName},-,getSecretValue,secretName ${JSON.stringify(params)}`);
+            console.log(`${clsName},-,getSecretValue,secretName ${JSON.stringify(params)}`);
             const res = await client.getSecretValue(params).promise()
-            console.log(`${EventName},-,getSecretValue,res ${JSON.stringify(res)}`);
+            console.log(`${clsName},-,getSecretValue,res ${JSON.stringify(res)}`);
             return res.SecretString;
         } catch (err) {
-            console.log(`${EventName},-,getSecretValue,An error occurred during secret retrieval: ${err.code}`);
+            console.log(`${clsName},-,getSecretValue,An error occurred during secret retrieval: ${err.code}`);
             throw err;
         }
     }

@@ -26,6 +26,8 @@ params:
     act_status_regex_value: /^[A | U | M | E]$/
     act_date_regex_value: /^(0[1-9]|1[0-2])(0[1-9]|1\d|2\d|3[01])(19|20|21)\d{2}$/
     rec_type_indi_dcf_body: V
+    notification_queue_url: https://sqs.us-east-1.amazonaws.com/030556409702/sandbox-esmd-email-queue.fifo
+    audit_queue_url: https://sqs.us-east-1.amazonaws.com/030556409702/sandbox-esmd-audit-queue.fifo
   val:
     domain: preview.myapp.com
 
@@ -82,5 +84,6 @@ functions:
       ACT_STATUS_REGEX_VALUE: ${param:act_status_regex_value}
       ACT_DATE_REGEX_VALUE: ${param:act_date_regex_value}
       REC_TYPE_INDI_DCF_BODY: ${param:rec_type_indi_dcf_body}
-      
+      NOTIFICATION_QUEUE_URL: ${param:notification_queue_url}
+      AUDIT_QUEUE_URL: ${param:audit_queue_url}
 

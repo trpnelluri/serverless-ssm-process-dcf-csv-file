@@ -25,7 +25,8 @@ class PostgresPromiseService {
             };
             let secretManagerService = SecretManagerService.getInstance();
             const resScrectManger = await secretManagerService.getSecretValue(params)
-            const dbConnDetails = JSON.parse(resScrectManger)
+            let dbConnDetails = JSON.parse(resScrectManger)
+            dbConnDetails.host='localhost'
             const db = pgp(dbConnDetails);
             return db;
         }catch(err){
@@ -36,20 +37,21 @@ class PostgresPromiseService {
 
     async insertData(guid, tableName, columns, values, db){
         try {
-            console.log(`${clsName},${guid},insertData,inside try block`);
+            console.log(`${clsName},${guid},insertData,inside try block values: ${JSON.stringify(values)}`);
             // our set of columns, to be created only once (statically), and then reused,
             // to let it cache up its formatting templates for high performance:
             const cs = new pgp.helpers.ColumnSet(columns, {table: tableName});
-
+            console.log(`${clsName},${guid},insertData,cs: ${JSON.stringify(cs)}`);
             // generating a multi-row insert query:
             const query = pgp.helpers.insert(values, cs);
+            console.log(`${clsName},${guid},insertData,query: ${JSON.stringify(query)}`);
             // executing the query:
             let response = await db.none(query);
             console.log(`${clsName},${guid},insertData,response: ${JSON.stringify(response)}`);
             return response
         } catch(err){
             console.error(`insertData,ERROR: ${err.stack}`);
-            throw new Error(`insertData,Error getting PosthresPromise ${err.stack}`);
+            throw new Error(`insertData,Error getting PostgresPromise ${err.stack}`);
         }
     }
 
