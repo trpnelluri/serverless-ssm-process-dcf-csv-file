@@ -28,6 +28,10 @@ params:
     rec_type_indi_dcf_body: V
     notification_queue_url: https://sqs.us-east-1.amazonaws.com/030556409702/sandbox-esmd-email-queue.fifo
     audit_queue_url: https://sqs.us-east-1.amazonaws.com/030556409702/sandbox-esmd-audit-queue.fifo
+    config_bucket_name: esmd-ss-bucket
+    dcf_config_folder: config/dcf-esmd-to-dc/
+    dcf_body_objname: body.json
+    
   val:
     domain: preview.myapp.com
 
@@ -86,4 +90,8 @@ functions:
       REC_TYPE_INDI_DCF_BODY: ${param:rec_type_indi_dcf_body}
       NOTIFICATION_QUEUE_URL: ${param:notification_queue_url}
       AUDIT_QUEUE_URL: ${param:audit_queue_url}
+      CONFIG_BUCKET_NAME: ${param:config_bucket_name}
+      DCF_CONFIG_FOLDER: ${param:dcf_config_folder}
+      DCF_BODY_OBJNAME: ${param:dcf_body_objname}
+      
 
