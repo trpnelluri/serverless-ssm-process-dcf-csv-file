@@ -85,6 +85,7 @@ class PostgresSQLService {
             console.error(`${clsName},${transID},insertData,catch block error: ${err.stack}`);
         }
     }
+
 }
 
 module.exports = PostgresSQLService;
