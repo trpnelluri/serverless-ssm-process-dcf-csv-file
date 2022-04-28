@@ -26,9 +26,9 @@ class PostgresPromiseService {
             let secretManagerService = SecretManagerService.getInstance();
             const resScrectManger = await secretManagerService.getSecretValue(params)
             let dbConnDetails = JSON.parse(resScrectManger)
-            dbConnDetails.host='localhost'
             console.log(`dbConnDetails: ${JSON.stringify(dbConnDetails)}`)
-            const db = pgp(dbConnDetails);
+            //const db = pgp(dbConnDetails);
+            const db = pgp(`postgresql://${dbConnDetails.username}:${dbConnDetails.password}@${dbConnDetails.host}:${dbConnDetails.port}/${dbConnDetails.dbname}`);
             return db;
         }catch(err){
             console.error(`connectToPostgresPromiseDB,ERROR: ${err.stack}`);
@@ -44,8 +44,8 @@ class PostgresPromiseService {
             const cs = new pgp.helpers.ColumnSet(columns, {table: tableName});
             console.log(`${clsName},${guid},insertData,cs: ${JSON.stringify(cs)}`);
             // generating a multi-row insert query:
-            //const query = pgp.helpers.insert(values, cs);
-            const query = pgp.helpers.insert(values,  ['submsn_trans_err_msg_id','sys_rec_creat_ts','sys_rec_creat_by','msg_svrty_ind','submsn_msg_type_name','glbl_uniq_id','err_msg_desc'], tableName);
+            const query = pgp.helpers.insert(values, cs);
+            //const query = pgp.helpers.insert(values,  ['submsn_trans_err_msg_id','sys_rec_creat_ts','sys_rec_creat_by','msg_svrty_ind','submsn_msg_type_name','glbl_uniq_id','err_msg_desc'], tableName);
             console.log(`${clsName},${guid},insertData,query: ${JSON.stringify(query)}`);
             // executing the query:
             let response = await db.none(query);

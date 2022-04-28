@@ -1,4 +1,5 @@
 'use strict'
+const { date } = require('joi');
 const SQSServiceShared = require('../aws/sqs-service');
 
 let instance = null;
@@ -23,6 +24,7 @@ class AuditEventService {
             auditEventObj.transaction_id = guid
             auditEventObj.request_type = 'SharedSystems'
             auditEventObj.worker_name = 'dcf-csv-file-process-lambda'
+            auditEventObj.date_timestamp = new Date();
             auditEventObj.hostname = ''
             auditEventObj.activity_name = ''
             auditEventObj.data = ''
