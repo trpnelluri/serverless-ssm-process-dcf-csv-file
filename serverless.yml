@@ -31,6 +31,7 @@ params:
     config_bucket_name: esmd-ss-bucket
     dcf_config_folder: config/dcf-esmd-to-dc/
     dcf_body_objname: body.json
+    max_no_of_recs_to_insert: 300
     
   val:
     domain: preview.myapp.com
@@ -93,5 +94,6 @@ functions:
       CONFIG_BUCKET_NAME: ${param:config_bucket_name}
       DCF_CONFIG_FOLDER: ${param:dcf_config_folder}
       DCF_BODY_OBJNAME: ${param:dcf_body_objname}
+      MAX_NO_OF_RECS_TO_INSERT: ${param:max_no_of_recs_to_insert}
       
 
