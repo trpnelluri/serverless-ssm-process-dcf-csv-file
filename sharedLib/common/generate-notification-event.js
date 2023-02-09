@@ -20,16 +20,17 @@ class NotificationEventService {
 
         try {
             let notificationObj = new Object;
-            notificationObj.guid = transID
-            notificationObj.request_type = 'INBOUND'
-            notificationObj.email_alert_notification_type = notificationType.toUpperCase()
-            notificationObj.file_name = fileName
-            notificationObj.environment_type = process.env.ENVIRONMENT_NAME
-            notificationObj.submission_timestamp = new Date();
-            notificationObj.email_place_holder_list = notifcationData
-            console.log(`${clsName},${transID},sendNotificationEvent,notificationObj : ${JSON.stringify(notificationObj)}`)
+            notificationObj.guid = transID;
+            notificationObj.request_type = 'INBOUND';
+            notificationObj.email_alert_notification_type = notificationType.toUpperCase();
+            notificationObj.file_name = fileName;
+            notificationObj.environment_type = process.env.ENVIRONMENT_NAME;
+            let dateTimeStamp = new Date();
+            notificationObj.submission_timestamp = dateTimeStamp.toLocaleString();
+            notificationObj.email_place_holder_list = notifcationData;
+            console.log(`${clsName},${transID},sendNotificationEvent,notificationObj : ${JSON.stringify(notificationObj)}`);
             const sendMsgRes = await SQSServiceShared.getInstance().sendMessage(transID, notificationObj, notification_SQS_url);
-            console.log(`${clsName},${transID},sendNotificationEvent,sendMsgRes: ${JSON.stringify(sendMsgRes)}`)
+            console.log(`${clsName},${transID},sendNotificationEvent,sendMsgRes: ${JSON.stringify(sendMsgRes)}`);
 
             if ( sendMsgRes ) {
                 return SUCCESS

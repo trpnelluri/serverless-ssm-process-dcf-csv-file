@@ -29,7 +29,7 @@ class DateTimeUtilsService {
         } catch(err) {
             console.error(`${clsName},${guid},formattedDate,failed to convert the datetime: ${JSON.stringify(err)}`);
             return null
-        }     
+        }
     }
 }
 

@@ -1,0 +1,41 @@
+{
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es2021": true,
+        "node": true,
+        "es6": true,
+        "mocha": true,
+        "jest": true
+    },
+    "extends": [
+        "eslint:recommended"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 2018
+    },
+    "rules": {
+        "strict": [2, "global"],
+    "indent": ["error", 4],
+    "eqeqeq": "error",
+    "curly": "error",
+    "no-unused-vars": ["error", { "vars": "all", "args": "none", "ignoreRestSiblings": false }],
+    "no-useless-escape" : 0,
+    "no-trailing-spaces": ["error", { "ignoreComments": true, "skipBlankLines": true }],
+    "no-multi-spaces": ["error", { "ignoreEOLComments": true }],
+    "no-return-await": "error",
+    "block-spacing": "error",
+    "no-console": 0,
+    "quotes": ["error", "single", { "avoidEscape": true }],
+    "max-len": ["error", { "code": 300 }],
+    "require-atomic-updates": 0,
+    "no-var": 1,
+    "no-underscore-dangle": 0,
+    "no-alert": 0,
+    "no-lone-blocks": 0,
+    "no-mixed-spaces-and-tabs": ["warn", "smart-tabs"],
+    "comma-spacing": ["error", { "before": false, "after": true }],
+    "space-infix-ops": ["error", { "int32Hint": false }]
+
+    }
+}

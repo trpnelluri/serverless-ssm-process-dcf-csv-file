@@ -9,45 +9,45 @@ service: serverless-ssm-process-dcf-csv-file
 
 frameworkVersion: '3'
 
+custom:
+  stage: ${opt:stage, self:provider.stage}
+  region: ${opt:region, self:provider.region}
+
 params:
   default:
     domain: ${sls:stage}.preview.myapp.com
-  dev:
-    sm_pgs_db_auth: dev_esmd_db_secret
+  uat:
+    sm_pgs_db_auth: uat_esmd_db_secret
     pgs_idle_time_out: 90000
     pgs_conn_time_out: 5000
-    bucket_name: esmd-aws-outbound-siva
+    bucket_name: uat-epor-esmd-bucket
     doc_code_err_data: ESMD_707^ERR_CSV_DOC_CD_MIS_INVLD^EITHER THE DOCUMENT CODE IS MISSING OR THE FORMAT IS INVALID FOR RECORD {0}
     doc_des_err_data: ESMD_708^ERR_CSV_DOC_DESC_MIS^EITHER THE DOCUMENT DESCRIPTION IS MISSING OR IS INVALID FOR RECORD {0}
     act_status_err_data: ESMD_709^ERR_CSV_ACTN_STUS_MIS^EITHER THE ACTION STATUS IS MISSING OR INVALID - VALID VALUES ARE(A,U,M,E) FOR RECORD {0}
     act_date_err_data: ESMD_710^ERR_CSV_ACTN_DT_MIS^EITHER THE ACTION DATE IS MISSING OR INVALID FOR RECORD {0}
-    notification_queue_url: https://sqs.us-east-1.amazonaws.com/030556409702/sandbox-esmd-email-queue.fifo
-    audit_queue_url: https://sqs.us-east-1.amazonaws.com/030556409702/sandbox-esmd-audit-queue.fifo
+    notification_queue_url: https://sqs.us-east-1.amazonaws.com/479922720506/uat-esmd-email-queue.fifo
+    audit_queue_url: https://sqs.us-east-1.amazonaws.com/479922720506/uat-esmd-audit-queue.fifo
     ref_sql_to_upt_status_in_submsn_trans: update esmd_data.submsn_trans set submsn_stus_id = '$1' where glbl_uniq_id = '$2'
     val_fail_notification: DCF_CSV_FILE_VAL_ERRORS
     emty_csv_notification: EMPTY_FILE_FROM_PCG
-    max_no_of_recs_to_insert: 20
+    max_no_of_recs_to_insert: 50
     tz: America/New_York
     
-  val:
-    domain: preview.myapp.com
-
-  uat:
-    domain: preview.myapp.com
-    
-  prod:
-    domain: preview.myapp.com
-
 # The `provider` block defines where your service will be deployed
 provider:
   name: aws
+  stage: uat
+  region: ${opt:region, 'us-east-1'}
+  environment:
+    REGION: ${self:custom.region}
+    STAGE: ${self:custom.stage}
   runtime: nodejs12.x
-
+  
   iam:
-    role: arn:aws:iam::030556409702:role/esmd_serverless_role
+    role: arn:aws:iam::479922720506:role/delegatedadmin/developer/esmd_serverless_role
 
   deploymentBucket:
-    name: esmd-aws-generic-bucket-siva # Overwrite the default deployment bucket
+    name: uat-esmd-aws-generic-bucket # Overwrite the default deployment bucket
     #serverSideEncryption: AES256 # when using server-side encryption
 
 # The `functions` block defines what code to deploy
@@ -57,21 +57,24 @@ functions:
     runtime: nodejs12.x
     vpc:
       securityGroupIds:
-        - sg-03151b54033e5158d
+        - sg-0ca6ecab90ad602f0
       subnetIds:
-        - subnet-0c3a4f372e820d41c
-        - subnet-02e013088b137a8ce
+        - subnet-01804d589b23f88ee
+        - subnet-08e9f51147f975378
+        - subnet-036c04b5ead7f9caa
 
     memorySize: 1024 # optional, in MB, default is 1024
     timeout: 10 # 
-    # provisionedConcurrency: 3 # optional, Count of provisioned lambda instances
-    # reservedConcurrency: 5 # optional, reserved concurrency limit for this function. By default, AWS uses account concurrency limit
+    provisionedConcurrency: 3 # optional, Count of provisioned lambda instances
+    reservedConcurrency: 5 # optional, reserved concurrency limit for this function. By default, AWS uses account concurrency limit
     package:
+      exclude:
+        - ecs/**
       individually: true
     events: 
-      - sqs: arn:aws:sqs:us-east-1:030556409702:esmd-process-dcf-queue.fifo 
+      - sqs: arn:aws:sqs:us-east-1:479922720506:uat-esmd-process-dcf-queue.fifo 
     environment:
-      ENVIRONMENT_NAME: dev
+      ENVIRONMENT_NAME: uat
       SM_PGS_DB_AUTH: ${param:sm_pgs_db_auth}
       PGS_IDLE_TIME_OUT: ${param:pgs_idle_time_out}
       PGS_CONN_TIME_OUT: ${param:pgs_conn_time_out}
@@ -79,7 +82,7 @@ functions:
       DOC_CODE_ERR_DATA: ${param:doc_code_err_data}
       DOC_DES_ERR_DATA: ${param:doc_des_err_data}
       ACT_STATUS_ERR_DATA: ${param:act_status_err_data}
-      ACT_DATE_ERR_DATA: ${param:act_date_err_data}     
+      ACT_DATE_ERR_DATA: ${param:act_date_err_data}
       NOTIFICATION_QUEUE_URL: ${param:notification_queue_url}
       AUDIT_QUEUE_URL: ${param:audit_queue_url}
       REF_SQL_TO_UPT_STATUS_IN_SUBMSN_TRANS: ${param:ref_sql_to_upt_status_in_submsn_trans}
